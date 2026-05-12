@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(winget search Python.Python 2>&1)",
+      "PowerShell(winget install Python.Python.3.12 --accept-package-agreements --accept-source-agreements 2>&1)"
+    ]
+  }
+}

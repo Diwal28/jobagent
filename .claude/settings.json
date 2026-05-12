@@ -1,0 +1,47 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd /c echo [PRE] Bash tool call"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd /c echo [POST] File written"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cmd /c echo [STOP] Session ended"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(cmd:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)"
+    ],
+    "deny": []
+  }
+}
