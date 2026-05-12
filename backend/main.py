@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Vercel runs from project root; add backend/ to path so relative imports work
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
