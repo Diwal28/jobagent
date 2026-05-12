@@ -90,7 +90,18 @@ CREATE POLICY "Users see own profile"
     WITH CHECK (auth.uid() = user_id);
 
 -- ============================================================
--- VÉRIFICATION POLICIES (à exécuter après migration)
+-- GRANTS — obligatoires pour que RLS fonctionne
+-- Sans ça : "permission denied for table" même avec anon key
+-- ============================================================
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.job_applications TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.job_applications TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.candidate_profiles TO anon;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.candidate_profiles TO authenticated;
+
+-- ============================================================
+-- VÉRIFICATION (à exécuter après migration)
 -- SELECT * FROM pg_policies WHERE tablename = 'job_applications';
 -- SELECT * FROM pg_policies WHERE tablename = 'candidate_profiles';
+-- SELECT grantee, privilege_type FROM information_schema.role_table_grants
+--   WHERE table_name IN ('job_applications', 'candidate_profiles');
 -- ============================================================
