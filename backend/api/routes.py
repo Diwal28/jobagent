@@ -50,7 +50,7 @@ async def create_job(payload: JobCreate):
         return {"success": True, "job": saved}
     except Exception as e:
         logger.error("Failed to create job: %s", e)
-        raise HTTPException(status_code=500, detail=f"DEBUG: {type(e).__name__}: {e}")
+        raise HTTPException(status_code=500, detail="Impossible de sauvegarder l'offre.")
 
 
 @router.get("/jobs")
