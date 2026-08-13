@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import { Footer } from "@/components/layout/Footer";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
+import { MotionProvider } from "@/components/layout/MotionProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { StructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/data/restaurant";
@@ -90,15 +91,17 @@ export default function RootLayout({
           Aller au contenu
         </a>
 
-        <Navbar />
+        <MotionProvider>
+          <Navbar />
 
-        {/* La marge basse laisse la place à la barre d'action mobile. */}
-        <main id="contenu" className="pb-[4.75rem] sm:pb-0">
-          {children}
-        </main>
+          {/* La marge basse laisse la place à la barre d'action mobile. */}
+          <main id="contenu" className="pb-[4.75rem] sm:pb-0">
+            {children}
+          </main>
 
-        <Footer />
-        <MobileActionBar />
+          <Footer />
+          <MobileActionBar />
+        </MotionProvider>
         <StructuredData />
       </body>
     </html>

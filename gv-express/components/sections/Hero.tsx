@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 
@@ -35,16 +35,11 @@ function OpenBadge() {
 }
 
 export function Hero() {
-  const reduceMotion = useReducedMotion();
-
-  const rise = (delay: number) =>
-    reduceMotion
-      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.4 } }
-      : {
-          initial: { opacity: 0, y: 24 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.85, ease, delay },
-        };
+  const rise = (delay: number) => ({
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.85, ease, delay },
+  });
 
   return (
     <section className="grain relative flex min-h-[100svh] items-end overflow-hidden bg-ink pt-32 pb-16 sm:items-center sm:pt-44 sm:pb-24">
@@ -52,8 +47,8 @@ export function Hero() {
       <div className="absolute inset-0 -z-10">
         <motion.div
           className="absolute inset-0"
-          initial={reduceMotion ? undefined : { scale: 1.1, opacity: 0 }}
-          animate={reduceMotion ? undefined : { scale: 1, opacity: 1 }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.6, ease }}
         >
           <Image

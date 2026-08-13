@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 import { ease, viewportOnce } from "@/lib/motion";
@@ -8,7 +8,7 @@ import { ease, viewportOnce } from "@/lib/motion";
 type RevealProps = {
   children: ReactNode;
   className?: string;
-  /** Retard d’apparition, en secondes. */
+  /** Retard d'apparition, en secondes. */
   delay?: number;
   /** Déplacement vertical initial. Mettre 0 pour un simple fondu. */
   y?: number;
@@ -17,8 +17,13 @@ type RevealProps = {
 
 /**
  * Apparition au scroll, une seule fois.
- * Respecte `prefers-reduced-motion` : le contenu est alors affiché
- * immédiatement, sans déplacement.
+ *
+ * Les props sont identiques au rendu serveur et au rendu client :
+ * c'est `MotionConfig reducedMotion="user"` (voir MotionProvider)
+ * qui neutralise le déplacement pour les visiteurs ayant activé
+ * « réduire les animations ». Un branchement conditionnel ici
+ * laisserait le style `opacity:0` du rendu serveur en place et
+ * rendrait le contenu invisible.
  */
 export function Reveal({
   children,
@@ -27,12 +32,7 @@ export function Reveal({
   y = 22,
   as = "div",
 }: RevealProps) {
-  const reduceMotion = useReducedMotion();
   const Component = motion[as];
-
-  if (reduceMotion) {
-    return <Component className={className}>{children}</Component>;
-  }
 
   return (
     <Component
