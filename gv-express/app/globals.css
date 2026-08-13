@@ -2,71 +2,78 @@
 
 /* ═══════════════════════════════════════════════════════════
    GV EXPRESS — IDENTITÉ VISUELLE
-   Toutes les couleurs de la charte sont définies ici.
-   Modifier une valeur ci-dessous met à jour tout le site.
+   Le site alterne des sections claires (crème) et sombres
+   (espresso). Modifier une valeur ici met à jour tout le site.
    ═══════════════════════════════════════════════════════════ */
 
 @theme {
-  /* Fonds — du plus profond au plus clair */
-  --color-ink: #0b0908;
-  --color-ink-2: #121010;
-  --color-ink-3: #1b1714;
-  --color-ink-4: #241e19;
+  /* Surfaces claires */
+  --color-cream: #fbf6ef; /* fond principal */
+  --color-cream-2: #f4ebdf; /* section alternée */
+  --color-cream-3: #ffffff; /* cartes */
 
-  /* Textes */
-  --color-cream: #f5eee4;
-  --color-cream-muted: #c4b8a9;
-  --color-cream-faint: #8c8177;
+  /* Surfaces sombres */
+  --color-ink: #14100c;
+  --color-ink-2: #1d1712;
+  --color-ink-3: #2a211a;
+
+  /* Textes sur fond clair */
+  --color-cocoa: #241a12;
+  --color-cocoa-muted: #6b5a4b;
+  --color-cocoa-faint: #9a8877;
+
+  /* Textes sur fond sombre */
+  --color-sand: #f6efe5;
+  --color-sand-muted: #c3b5a4;
+  --color-sand-faint: #8d7f70;
 
   /* Accents gastronomiques */
-  --color-ember: #e0642c; /* braise — accent principal */
-  --color-ember-deep: #b84a1c;
-  --color-gold: #c8a15a; /* doré discret — labels, filets */
-  --color-clay: #7a3a22; /* terre cuite — profondeurs */
+  --color-gold: #c8973f; /* doré — sur fond sombre et décors */
+  --color-gold-soft: #e0b25f;
+  --color-gold-ink: #8a5d16; /* doré lisible sur fond clair */
+  --color-ember: #c4641f; /* braise — prix, soulignements */
+  --color-ember-ink: #a8501c; /* braise lisible sur fond clair */
   --color-leaf: #16833f; /* WhatsApp / disponibilité */
 
-  /* Filets et bordures */
-  --color-line: rgba(245, 238, 228, 0.1);
-  --color-line-strong: rgba(245, 238, 228, 0.22);
+  /* Filets */
+  --color-line: rgba(36, 26, 18, 0.12);
+  --color-line-strong: rgba(36, 26, 18, 0.24);
+  --color-line-dark: rgba(246, 239, 229, 0.12);
+  --color-line-dark-strong: rgba(246, 239, 229, 0.26);
 
   /* Typographie */
   --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Rythme */
-  --radius-card: 1.25rem;
+  --radius-card: 0.75rem;
 }
 
 /* ── Base ─────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
-  /* Compense la navbar fixe lors du défilement vers une ancre */
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 7rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: var(--color-ink);
-  color: var(--color-cream);
+  background-color: var(--color-cream);
+  color: var(--color-cocoa);
   font-family: var(--font-sans);
   font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  /* Aucune section ne doit déborder horizontalement */
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: var(--color-ember);
-  color: #fff;
+  background-color: var(--color-gold);
+  color: #14100c;
 }
 
-/* Focus clavier visible sur toute l'interface */
 :focus-visible {
   outline: 2px solid var(--color-ember);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 h1,
@@ -77,11 +84,11 @@ h3 {
   letter-spacing: -0.02em;
 }
 
-/* ── Utilitaires de composition ───────────────────────────── */
+/* ── Composition ──────────────────────────────────────────── */
 
 @utility container-gv {
   width: 100%;
-  max-width: 84rem;
+  max-width: 82rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
@@ -92,60 +99,67 @@ h3 {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .container-gv {
-    padding-inline: 3rem;
+    padding-inline: 2.5rem;
   }
 }
 
-/** Petit label typographique en capitales. */
+/** Petit label en capitales espacées. */
 @utility eyebrow {
   font-family: var(--font-sans);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-gold-ink);
+}
+
+/** Variante sur fond sombre. */
+@utility eyebrow-dark {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--color-gold);
 }
 
-/** Titre d'affichage — tailles fluides, jamais de débordement. */
 @utility display-1 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 30, "WONK" 1;
+  font-variation-settings: "SOFT" 28, "WONK" 1;
   font-weight: 500;
-  font-size: clamp(2.75rem, 11vw, 7rem);
-  line-height: 0.94;
+  font-size: clamp(2.75rem, 8.4vw, 5.25rem);
+  line-height: 1;
   letter-spacing: -0.035em;
 }
 
 @utility display-2 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 25, "WONK" 1;
+  font-variation-settings: "SOFT" 24, "WONK" 1;
   font-weight: 500;
-  font-size: clamp(2rem, 5.5vw, 3.75rem);
-  line-height: 1.02;
+  font-size: clamp(1.9rem, 4.4vw, 3.25rem);
+  line-height: 1.08;
   letter-spacing: -0.03em;
 }
 
 @utility display-3 {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.375rem, 2.6vw, 1.875rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
 }
 
-/** Filet dégradé doré, utilisé sous les titres de section. */
-@utility hairline {
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    var(--color-gold),
-    rgba(200, 161, 90, 0)
-  );
+/** Signature manuscrite du hero (italique du Fraunces). */
+@utility script {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
 }
 
-/** Masque les barres de défilement des rangées de filtres. */
 @utility no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -155,7 +169,7 @@ h3 {
   display: none;
 }
 
-/** Grain photographique — donne de la matière aux aplats sombres. */
+/** Grain photographique sur les aplats sombres. */
 @utility grain {
   position: relative;
 }
@@ -165,7 +179,7 @@ h3 {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.3;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
 }
@@ -173,15 +187,24 @@ h3 {
 /** Voile de lecture au-dessus d'une image sombre. */
 @utility veil {
   background-image: linear-gradient(
-    to top,
-    var(--color-ink) 2%,
-    rgba(11, 9, 8, 0.86) 30%,
-    rgba(11, 9, 8, 0.5) 62%,
-    rgba(11, 9, 8, 0.72) 100%
+    100deg,
+    rgba(20, 16, 12, 0.96) 0%,
+    rgba(20, 16, 12, 0.86) 34%,
+    rgba(20, 16, 12, 0.45) 62%,
+    rgba(20, 16, 12, 0.3) 100%
   );
 }
 
-/* Défilement horizontal continu du bandeau sous le hero */
+@utility veil-soft {
+  background-image: linear-gradient(
+    to top,
+    rgba(20, 16, 12, 0.94) 0%,
+    rgba(20, 16, 12, 0.55) 45%,
+    rgba(20, 16, 12, 0.35) 100%
+  );
+}
+
+/* Défilement horizontal continu du bandeau d'annonces */
 @keyframes gv-marquee {
   from {
     transform: translateX(0);
@@ -192,7 +215,7 @@ h3 {
 }
 
 .animate-marquee {
-  animation: gv-marquee 38s linear infinite;
+  animation: gv-marquee 42s linear infinite;
 }
 
 /* ── Accessibilité : mouvement réduit ─────────────────────── */

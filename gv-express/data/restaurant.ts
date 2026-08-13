@@ -91,12 +91,15 @@ export function whatsappUrl(message?: string): string {
 /** Message par défaut proposé au client qui ouvre WhatsApp. */
 export const defaultWhatsappMessage = `Bonjour ${restaurant.name}, je souhaite passer une commande.`;
 
-/** Navigation principale — les ancres correspondent aux id des sections. */
+/** Navigation principale du site. */
 export const navLinks: NavLink[] = [
-  { label: "Accueil", href: "#accueil" },
-  { label: "Notre menu", href: "#menu" },
-  { label: "À propos", href: "#a-propos" },
-  { label: "Contact", href: "#contact" },
+  { label: "Accueil", href: "/" },
+  { label: "À propos", href: "/a-propos" },
+  { label: "Menu", href: "/menu" },
+  { label: "Réservation", href: "/reservation" },
+  { label: "Événements", href: "/evenements" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /**

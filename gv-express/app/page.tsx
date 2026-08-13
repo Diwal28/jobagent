@@ -1,36 +1,25 @@
-import { About } from "@/components/About";
-import { Contact } from "@/components/Contact";
-import { Features } from "@/components/Features";
-import { Footer } from "@/components/Footer";
-import { Gallery } from "@/components/Gallery";
-import { Hero } from "@/components/Hero";
-import { Location } from "@/components/Location";
-import { Marquee } from "@/components/Marquee";
-import { Menu } from "@/components/Menu";
-import { Navbar } from "@/components/Navbar";
-import { Order } from "@/components/Order";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { AboutIntro } from "@/components/sections/AboutIntro";
+import { CtaBand } from "@/components/sections/CtaBand";
+import { Gallery } from "@/components/sections/Gallery";
+import { Hero } from "@/components/sections/Hero";
+import { Highlights } from "@/components/sections/Highlights";
+import { LocationBlock } from "@/components/sections/LocationBlock";
+import { ReservationBand } from "@/components/sections/ReservationBand";
+import { Specialties } from "@/components/sections/Specialties";
+import { Voices } from "@/components/sections/Voices";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
-      <Navbar />
-
-      {/* La marge basse laisse la place à la barre d’action mobile. */}
-      <main className="pb-24 sm:pb-0">
-        <Hero />
-        <Marquee />
-        <About />
-        <Menu />
-        <Features />
-        <Order />
-        <Gallery />
-        <Location />
-        <Contact />
-      </main>
-
-      <Footer />
-      <WhatsAppButton />
+      <Hero />
+      <Highlights />
+      <Specialties />
+      <ReservationBand />
+      <AboutIntro />
+      <Gallery />
+      <Voices />
+      <LocationBlock />
+      <CtaBand />
     </>
   );
 }

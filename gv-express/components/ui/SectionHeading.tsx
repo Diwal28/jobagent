@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
+import { Ornament } from "./Ornament";
 import { Reveal } from "./Reveal";
 
 type SectionHeadingProps = {
@@ -9,6 +10,7 @@ type SectionHeadingProps = {
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
+  tone?: "light" | "dark";
   className?: string;
 };
 
@@ -17,38 +19,41 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  tone = "light",
   className,
 }: SectionHeadingProps) {
   const centered = align === "center";
+  const dark = tone === "dark";
 
   return (
-    <div
-      className={cn(
-        "max-w-2xl",
-        centered && "mx-auto text-center",
-        className,
-      )}
-    >
+    <div className={cn("max-w-2xl", centered && "mx-auto text-center", className)}>
       <Reveal>
-        <p className="eyebrow">{eyebrow}</p>
+        <p className={dark ? "eyebrow-dark" : "eyebrow"}>{eyebrow}</p>
       </Reveal>
 
       <Reveal delay={0.06}>
-        <h2 className="display-2 mt-5 text-cream text-balance">{title}</h2>
+        <h2
+          className={cn(
+            "display-2 mt-4 text-balance",
+            dark ? "text-sand" : "text-cocoa",
+          )}
+        >
+          {title}
+        </h2>
       </Reveal>
 
       <Reveal delay={0.1}>
-        <div
-          className={cn(
-            "hairline mt-7 w-24",
-            centered && "mx-auto",
-          )}
-        />
+        <Ornament tone={tone} className={cn("mt-5", centered && "mx-auto")} />
       </Reveal>
 
       {description && (
         <Reveal delay={0.14}>
-          <p className="mt-6 text-base leading-relaxed text-cream-muted sm:text-lg text-pretty">
+          <p
+            className={cn(
+              "mt-5 text-[0.9375rem] leading-relaxed text-pretty sm:text-base",
+              dark ? "text-sand-muted" : "text-cocoa-muted",
+            )}
+          >
             {description}
           </p>
         </Reveal>

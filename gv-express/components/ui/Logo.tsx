@@ -1,67 +1,83 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Monogramme GV — traitement typographique temporaire.
- * À remplacer par le logo officiel de GV Express dès qu’il est
- * disponible (voir README, section « Remplacer le logo »).
+ * Marque GV — couverts croisés dans un cercle.
+ * Traitement temporaire : à remplacer par le logo officiel de
+ * GV Express dès qu'il est fourni (voir README).
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 48 48"
+      viewBox="0 0 40 40"
       aria-hidden="true"
       focusable="false"
-      className={cn("h-9 w-9", className)}
+      className={cn("h-8 w-8", className)}
     >
-      <defs>
-        <linearGradient id="gv-mark-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#f0a44f" />
-          <stop offset="100%" stopColor="#d8542a" />
-        </linearGradient>
-      </defs>
       <circle
-        cx="24"
-        cy="24"
-        r="21"
+        cx="20"
+        cy="20"
+        r="18.5"
         fill="none"
-        stroke="url(#gv-mark-gradient)"
-        strokeWidth="1.5"
+        stroke="currentColor"
+        strokeWidth="1"
+        opacity="0.45"
       />
-      {/* Arc bas : évoque une assiette vue de profil. */}
+      {/* Fourchette */}
       <path
-        d="M9 27a15 15 0 0 0 30 0Z"
-        fill="url(#gv-mark-gradient)"
-        opacity="0.9"
+        d="M14.6 9.5v6.2c0 1.5.9 2.4 2.1 2.6l-.5 12.2M13 9.5v5.4M16.2 9.5v5.4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
-      <path d="M9 27h30" stroke="#f5eee4" strokeWidth="1.2" opacity="0.55" />
+      {/* Couteau */}
+      <path
+        d="M25.6 9.5c1.7 1.9 2.3 4.4 2 7.2-.2 1.6-.9 2.4-2 2.6l-.5 11.2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
 export function Logo({
   className,
+  tone = "dark",
   compact = false,
 }: {
   className?: string;
+  /** `dark` = posé sur fond sombre, `light` = sur fond clair. */
+  tone?: "dark" | "light";
   compact?: boolean;
 }) {
+  const wordmark = tone === "dark" ? "text-sand" : "text-cocoa";
+  const sub = tone === "dark" ? "text-sand-faint" : "text-cocoa-faint";
+
   return (
-    <span className={cn("flex items-center gap-2.5", className)}>
-      <LogoMark className={compact ? "h-7 w-7" : "h-9 w-9"} />
+    <span className={cn("flex items-center gap-3", className)}>
+      <LogoMark
+        className={cn(compact ? "h-7 w-7" : "h-9 w-9", "text-gold")}
+      />
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "font-[family-name:var(--font-display)] font-semibold tracking-tight text-cream",
-            compact ? "text-lg" : "text-xl",
+            "whitespace-nowrap font-[family-name:var(--font-display)] font-semibold uppercase tracking-[0.14em]",
+            compact ? "text-base" : "text-lg sm:text-xl",
+            wordmark,
           )}
         >
           GV Express
         </span>
-        {!compact && (
-          <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.28em] text-cream-faint">
-            Pikine · Dakar
-          </span>
-        )}
+        <span
+          className={cn(
+            "mt-1.5 text-[8px] font-semibold uppercase tracking-[0.42em]",
+            sub,
+          )}
+        >
+          Restaurant
+        </span>
       </span>
     </span>
   );

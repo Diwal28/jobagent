@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -9,8 +9,19 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { galleryImages } from "@/data/gallery";
 import { ease } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
-export function Gallery() {
+/** Emprises de la composition éditoriale, par position dans la grille. */
+const spanClasses = [
+  "sm:col-span-2 sm:row-span-2",
+  "sm:col-span-2 sm:row-span-1",
+  "sm:col-span-1 sm:row-span-1",
+  "sm:col-span-1 sm:row-span-1",
+  "sm:col-span-2 sm:row-span-1",
+  "sm:col-span-2 sm:row-span-1",
+];
+
+export function Gallery({ tone = "light" }: { tone?: "light" | "dark" }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -43,40 +54,52 @@ export function Gallery() {
   }, [openIndex, close, step]);
 
   const current = openIndex === null ? null : galleryImages[openIndex];
+  const dark = tone === "dark";
 
   return (
-    <section id="galerie" className="scroll-mt-24 py-24 sm:py-32">
+    <section
+      id="galerie"
+      className={cn("py-16 sm:py-24", dark ? "bg-ink" : "bg-cream-2")}
+    >
       <div className="container-gv">
         <SectionHeading
           eyebrow="Galerie"
           title="L’ambiance en images"
+          align="center"
+          tone={tone}
           description="Les visuels ci-dessous sont des emplacements : ils accueilleront les photos de GV Express."
         />
 
-        <div className="mt-14 columns-2 gap-4 lg:columns-3 lg:gap-6">
+        <div className="mt-14 grid auto-rows-[160px] grid-cols-2 gap-3 sm:auto-rows-[190px] sm:grid-cols-4 sm:gap-4">
           {galleryImages.map((image, index) => (
             <Reveal
               key={image.id}
               delay={Math.min(index * 0.06, 0.3)}
-              className="mb-4 break-inside-avoid lg:mb-6"
+              className={cn("relative", spanClasses[index] ?? "")}
             >
               <button
                 type="button"
                 onClick={() => setOpenIndex(index)}
-                className="group relative block w-full overflow-hidden rounded-[var(--radius-card)] border border-line"
+                className="group relative block h-full w-full overflow-hidden border border-line"
                 aria-label={`Agrandir : ${image.caption}`}
               >
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  width={image.width}
-                  height={image.height}
-                  sizes="(max-width: 1024px) 50vw, 33vw"
-                  className="h-auto w-full transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
                 />
-                <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
-                <span className="absolute bottom-4 left-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-cream">
-                  {image.caption}
+                <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+
+                <span className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sand">
+                    {image.caption}
+                  </span>
+                  <Expand
+                    className="h-4 w-4 shrink-0 text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    aria-hidden="true"
+                  />
                 </span>
               </button>
             </Reveal>
@@ -94,7 +117,7 @@ export function Gallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/95 p-4 backdrop-blur-xl sm:p-8"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/96 p-4 backdrop-blur-xl sm:p-8"
             onClick={close}
           >
             <button
@@ -102,7 +125,7 @@ export function Gallery() {
               type="button"
               onClick={close}
               aria-label="Fermer la galerie"
-              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-cream transition-colors hover:border-cream sm:right-8 sm:top-8"
+              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center border border-line-dark-strong text-sand transition-colors hover:border-gold hover:text-gold sm:right-8 sm:top-8"
             >
               <X className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -114,7 +137,7 @@ export function Gallery() {
                 step(-1);
               }}
               aria-label="Image précédente"
-              className="absolute left-3 flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-cream transition-colors hover:border-cream sm:left-8"
+              className="absolute left-3 flex h-12 w-12 items-center justify-center border border-line-dark-strong text-sand transition-colors hover:border-gold hover:text-gold sm:left-8"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -126,7 +149,7 @@ export function Gallery() {
                 step(1);
               }}
               aria-label="Image suivante"
-              className="absolute right-3 flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-cream transition-colors hover:border-cream sm:right-8"
+              className="absolute right-3 flex h-12 w-12 items-center justify-center border border-line-dark-strong text-sand transition-colors hover:border-gold hover:text-gold sm:right-8"
             >
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -145,11 +168,11 @@ export function Gallery() {
                 width={current.width}
                 height={current.height}
                 sizes="(max-width: 768px) 92vw, 768px"
-                className="max-h-[74svh] w-full rounded-2xl object-contain"
+                className="max-h-[72svh] w-full object-contain"
               />
-              <figcaption className="mt-5 text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-cream-muted">
+              <figcaption className="mt-5 text-center text-[11px] font-semibold uppercase tracking-[0.24em] text-sand-muted">
                 {current.caption}
-                <span className="mx-3 text-cream-faint">·</span>
+                <span className="mx-3 text-sand-faint">·</span>
                 {(openIndex ?? 0) + 1} / {galleryImages.length}
               </figcaption>
             </motion.figure>

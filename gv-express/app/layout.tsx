@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
+import { Footer } from "@/components/layout/Footer";
+import { MobileActionBar } from "@/components/layout/MobileActionBar";
+import { Navbar } from "@/components/layout/Navbar";
 import { StructuredData } from "@/components/StructuredData";
 import { restaurant } from "@/data/restaurant";
 
@@ -61,15 +64,11 @@ export const metadata: Metadata = {
     description:
       "Découvrez GV Express au Centre Hospitalier National de Pikine, Camp Thiaroye. Consultez notre menu et contactez-nous pour commander.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0908",
-  colorScheme: "dark",
+  themeColor: "#14100c",
 };
 
 export default function RootLayout({
@@ -77,14 +76,29 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" className={`${fraunces.variable} ${inter.variable}`}>
+      <head>
+        {/* Sans JavaScript, les blocs animés resteraient invisibles. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className="antialiased">
         <a
-          href="#menu"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ember focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink"
+          href="#contenu"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-gold focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-ink"
         >
-          Aller au menu
+          Aller au contenu
         </a>
-        {children}
+
+        <Navbar />
+
+        {/* La marge basse laisse la place à la barre d'action mobile. */}
+        <main id="contenu" className="pb-[4.75rem] sm:pb-0">
+          {children}
+        </main>
+
+        <Footer />
+        <MobileActionBar />
         <StructuredData />
       </body>
     </html>

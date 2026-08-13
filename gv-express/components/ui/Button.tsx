@@ -1,52 +1,91 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "outline" | "ghost" | "whatsapp";
-type Size = "md" | "lg";
+type Variant = "gold" | "dark" | "outline" | "outline-dark" | "whatsapp";
+type Size = "sm" | "md" | "lg";
 
 const base =
-  "group inline-flex items-center justify-center gap-2.5 rounded-full font-semibold transition-all duration-300 will-change-transform active:scale-[0.98] disabled:opacity-50";
+  "group inline-flex items-center justify-center gap-2.5 rounded-sm font-semibold uppercase tracking-[0.12em] transition-all duration-300 active:scale-[0.985] disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-ember text-ink shadow-[0_10px_30px_-12px_rgba(224,100,44,0.9)] hover:bg-[#f0a44f] hover:shadow-[0_16px_40px_-14px_rgba(224,100,44,1)]",
+  /** Bouton principal — doré sur fond clair comme sur fond sombre. */
+  gold: "bg-gold text-ink hover:bg-gold-soft",
+  dark: "bg-ink text-sand hover:bg-ink-3",
   outline:
-    "border border-line-strong text-cream hover:border-cream hover:bg-cream hover:text-ink",
-  ghost: "text-cream hover:text-ember",
-  whatsapp:
-    "bg-leaf text-white shadow-[0_10px_30px_-12px_rgba(31,168,85,0.9)] hover:brightness-110",
+    "border border-line-strong text-cocoa hover:border-ink hover:bg-ink hover:text-sand",
+  "outline-dark":
+    "border border-line-dark-strong text-sand hover:border-sand hover:bg-sand hover:text-ink",
+  whatsapp: "bg-leaf text-white hover:brightness-110",
 };
 
 const sizes: Record<Size, string> = {
-  // 48px et 56px de hauteur : cibles tactiles confortables sur mobile.
-  md: "h-12 px-6 text-[0.9375rem]",
-  lg: "h-14 px-8 text-base",
+  sm: "h-10 px-4 text-[0.6875rem]",
+  md: "h-12 px-6 text-xs",
+  lg: "h-14 px-8 text-[0.8125rem]",
 };
 
-type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type Common = {
   variant?: Variant;
   size?: Size;
   children: ReactNode;
-  /** Ajoute automatiquement rel/target pour les liens sortants. */
-  external?: boolean;
+  className?: string;
 };
 
+type ButtonLinkProps = Common &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+    /** Lien sortant : ouvre un nouvel onglet avec rel sécurisé. */
+    external?: boolean;
+  };
+
 export function ButtonLink({
-  variant = "primary",
+  variant = "gold",
   size = "md",
   className,
   children,
+  href,
   external = false,
   ...props
 }: ButtonLinkProps) {
+  const classes = cn(base, variants[variant], sizes[size], className);
+
+  if (external || href.startsWith("http") || href.startsWith("tel:")) {
+    return (
+      <a
+        href={href}
+        className={classes}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a
+    <Link href={href} className={classes} {...props}>
+      {children}
+    </Link>
+  );
+}
+
+type ActionButtonProps = Common & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export function ActionButton({
+  variant = "gold",
+  size = "md",
+  className,
+  children,
+  ...props
+}: ActionButtonProps) {
+  return (
+    <button
       className={cn(base, variants[variant], sizes[size], className)}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       {...props}
     >
       {children}
-    </a>
+    </button>
   );
 }
