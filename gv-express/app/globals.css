@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════
+   GV EXPRESS — IDENTITÉ VISUELLE
+   Le site alterne des sections claires (crème) et sombres
+   (espresso). Modifier une valeur ici met à jour tout le site.
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Surfaces claires */
+  --color-cream: #fbf6ef; /* fond principal */
+  --color-cream-2: #f4ebdf; /* section alternée */
+  --color-cream-3: #ffffff; /* cartes */
+
+  /* Surfaces sombres */
+  --color-ink: #14100c;
+  --color-ink-2: #1d1712;
+  --color-ink-3: #2a211a;
+
+  /* Textes sur fond clair */
+  --color-cocoa: #241a12;
+  --color-cocoa-muted: #6b5a4b;
+  --color-cocoa-faint: #9a8877;
+
+  /* Textes sur fond sombre */
+  --color-sand: #f6efe5;
+  --color-sand-muted: #c3b5a4;
+  --color-sand-faint: #8d7f70;
+
+  /* Accents gastronomiques */
+  --color-gold: #c8973f; /* doré — sur fond sombre et décors */
+  --color-gold-soft: #e0b25f;
+  --color-gold-ink: #8a5d16; /* doré lisible sur fond clair */
+  --color-ember: #c4641f; /* braise — prix, soulignements */
+  --color-ember-ink: #a8501c; /* braise lisible sur fond clair */
+  --color-leaf: #16833f; /* WhatsApp / disponibilité */
+
+  /* Filets */
+  --color-line: rgba(36, 26, 18, 0.12);
+  --color-line-strong: rgba(36, 26, 18, 0.24);
+  --color-line-dark: rgba(246, 239, 229, 0.12);
+  --color-line-dark-strong: rgba(246, 239, 229, 0.26);
+
+  /* Typographie */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.75rem;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-cocoa);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: #14100c;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 20, "WONK" 1;
+  letter-spacing: -0.02em;
+}
+
+/* ── Composition ──────────────────────────────────────────── */
+
+@utility container-gv {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .container-gv {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-gv {
+    padding-inline: 2.5rem;
+  }
+}
+
+/** Petit label en capitales espacées. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-gold-ink);
+}
+
+/** Variante sur fond sombre. */
+@utility eyebrow-dark {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+@utility display-1 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 28, "WONK" 1;
+  font-weight: 500;
+  font-size: clamp(2.75rem, 8.4vw, 5.25rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+@utility display-2 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 24, "WONK" 1;
+  font-weight: 500;
+  font-size: clamp(1.9rem, 4.4vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+@utility display-3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+/** Signature manuscrite du hero (italique du Fraunces). */
+@utility script {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/** Grain photographique sur les aplats sombres. */
+@utility grain {
+  position: relative;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/** Voile de lecture au-dessus d'une image sombre. */
+@utility veil {
+  background-image: linear-gradient(
+    100deg,
+    rgba(20, 16, 12, 0.96) 0%,
+    rgba(20, 16, 12, 0.86) 34%,
+    rgba(20, 16, 12, 0.45) 62%,
+    rgba(20, 16, 12, 0.3) 100%
+  );
+}
+
+@utility veil-soft {
+  background-image: linear-gradient(
+    to top,
+    rgba(20, 16, 12, 0.94) 0%,
+    rgba(20, 16, 12, 0.55) 45%,
+    rgba(20, 16, 12, 0.35) 100%
+  );
+}
+
+/* Défilement horizontal continu du bandeau d'annonces */
+@keyframes gv-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: gv-marquee 42s linear infinite;
+}
+
+/* ── Accessibilité : mouvement réduit ─────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
