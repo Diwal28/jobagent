@@ -7,3 +7,6 @@ backend/__pycache__/
 backend/.pytest_cache/
 **/__pycache__/
 *.pyc
+
+# Site vitrine restaurant — déployé séparément
+restaurant/
